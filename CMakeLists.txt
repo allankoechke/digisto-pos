@@ -10,6 +10,7 @@ find_package(Qt6 6.4 REQUIRED COMPONENTS
     Quick
     Widgets
 )
+find_package(Qt6 REQUIRED COMPONENTS Core)
 
 qt_standard_project_setup()
 
@@ -55,7 +56,8 @@ if (WIN32)
     list(APPEND SOURCES ${APP_ICON_RESOURCE_FILES})
 endif()
 
-qt_add_executable(digisto ${SOURCES})
+qt_add_executable(digisto ${SOURCES}
+    src/mantisintegration.h src/mantisintegration.cpp)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
@@ -74,6 +76,7 @@ target_link_libraries(digisto
     Qt6::Quick
     Qt6::Widgets
 )
+target_link_libraries(digisto PRIVATE Qt6::Core)
 
 include(GNUInstallDirs)
 install(TARGETS digisto

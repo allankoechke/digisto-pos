@@ -66,6 +66,7 @@ int main(int argc, char *argv[])
     }
 
     QString serverUrl(QString("http://127.0.0.1:%1").arg(port));
+    qDebug() << serverUrl;
 
     // Create local server instance
     LocalServer lServer{ port, &dsController };

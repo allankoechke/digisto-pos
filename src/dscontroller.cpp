@@ -16,7 +16,7 @@ DsController::DsController(QObject *parent)
         qDebug() << "Resource file missing!";
     }
 
-    auto ok = file.open(QIODevice::ReadOnly);
+    [[maybe_unused]] auto ok = file.open(QIODevice::ReadOnly);
     Q_ASSERT(ok);
 
     QVariantMap configurations=QJsonDocument::fromJson(file.readAll()).toVariant().toMap();

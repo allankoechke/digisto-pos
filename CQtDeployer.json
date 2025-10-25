@@ -1,0 +1,18 @@
+{
+    "bin": "./",
+    "clear": true,
+    "libDir": "./",
+    "recursiveDepth": "5"
+}
+
+// .\tools\cqtdeployer-win\CQtDeployer.bat 
+// -bin .\build\digisto-standalone-win64\digisto.exe 
+// -qmake B:\Programs\Qt\6.7.3\msvc2022_64\bin\qmake.exe 
+// -qmlDir ./ui/ 
+// -extraData ./api/ 
+// -name digisto0.25.0123 
+// -icon B:/Repos/digisto/digisto-app/logo.ico 
+// -qifLogo B:/Repos/digisto/digisto-app/logo.ico 
+// -targetDir ./build/digisto-standalone-win64 
+// zip
+
