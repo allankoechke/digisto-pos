@@ -16,6 +16,7 @@
 #include <QFileInfo>
 #include <QTcpServer>
 #include <QHostAddress>
+#include "mantisintegration.h"
 
 class DsController : public QObject
 {
@@ -128,6 +129,7 @@ private:
     bool m_isDarkTheme;
     bool m_startWindowMaximized;
     std::shared_ptr<QSettings> settings;
+    std::unique_ptr<MantisIntegration> m_mantisAppIntegration;
     QString m_encryptionKey;
     QString m_encryptionSalt;
     QString m_platform;

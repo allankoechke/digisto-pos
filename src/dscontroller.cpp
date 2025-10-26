@@ -75,6 +75,13 @@ DsController::DsController(QObject *parent)
     // qDebug() << m_organization;
 
     // -----------------------------
+    // MantisApp Integration       |
+    // -----------------------------
+    m_mantisAppIntegration = std::make_unique<MantisIntegration>();
+    // Bind signals, to and from
+
+
+    // -----------------------------
     // Late Connections            |
     // -----------------------------
     connect(this, &DsController::tokenChanged, this, &DsController::onTokenChanged);

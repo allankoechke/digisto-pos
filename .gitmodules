@@ -1,0 +1,3 @@
+[submodule "3rdParty/mantis"]
+	path = 3rdParty/mantis
+	url = https://github.com/allankoechke/mantis.git

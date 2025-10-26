@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 3.16)
 
 project(digistoapp VERSION 0.1 LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(DIGISTO_APP_VERSION "0.25.0310")    # App Version
+set(DIGISTO_APP_VERSION "0.25.0311")    # App Version
 
 find_package(Qt6 6.4 REQUIRED COMPONENTS
     Core
@@ -42,6 +43,7 @@ if(STANDALONE_SYSTEM)
         pb/hooks/organization.pb.js
         pb/hooks/supply.pb.js
         pb/hooks/utils.js
+        src/mantisintegration.h src/mantisintegration.cpp
     )
 
     add_custom_target(copy_assets ALL
@@ -56,8 +58,7 @@ if (WIN32)
     list(APPEND SOURCES ${APP_ICON_RESOURCE_FILES})
 endif()
 
-qt_add_executable(digisto ${SOURCES}
-    src/mantisintegration.h src/mantisintegration.cpp)
+qt_add_executable(digisto ${SOURCES})
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
@@ -69,6 +70,9 @@ set_target_properties(digisto PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
+
+# Add MantisApp integration file
+include(cmake/add-mantis.cmake)
 
 target_link_libraries(digisto
     PRIVATE
