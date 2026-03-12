@@ -193,6 +193,7 @@ bool LocalServer::startPocketBaseServer()
 #endif
 
     m_pbRunner->start(m_pocketbaseExec, args);
+    qDebug() << "App: " << m_pocketbaseExec;
 
     // Ensure server is running ...
     if(!m_pbRunner->waitForStarted()) {

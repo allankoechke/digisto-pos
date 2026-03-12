@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include <QtWebview/QtWebView>
+#include <QtWebView>
 #include <QMessageBox>
 #include <QObject>
 

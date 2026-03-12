@@ -27,9 +27,6 @@ set(SOURCES
     src/permissionmanager.h src/permissionmanager.cpp
     src/singleinstanceguard.h src/singleinstanceguard.cpp
 )
-
-if(STANDALONE_SYSTEM)
-    set(BUILD_MODE "standalone")
     add_compile_definitions(STANDALONE_SYSTEM)
 
     list(APPEND SOURCES
@@ -46,9 +43,6 @@ if(STANDALONE_SYSTEM)
     add_custom_target(copy_assets ALL
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/api ${CMAKE_BINARY_DIR}/api
     )
-else()
-    set(BUILD_MODE "client")
-endif()
 
 if (WIN32)
     set(APP_ICON_RESOURCE_FILES icon.rc)
@@ -74,6 +68,7 @@ target_link_libraries(digisto
     Qt6::Quick
     Qt6::Widgets
     Qt6::WebView
+    mb::static
 )
 
 include(GNUInstallDirs)
