@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
 #else
     if(qEnvironmentVariableIsSet("KG_DIGISTO_ENDPOINT")) {
         bool ok;
-        QString url = qEnvironmentVariableIntValue("KG_DIGISTO_ENDPOINT", &ok);
+        QString url = qEnvironmentVariable("KG_DIGISTO_ENDPOINT", "");
 
         dsController.setBaseUrl(url);
         qDebug() << "Clinet URL Endpoint Set to: " << url;

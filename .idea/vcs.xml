@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/3rdParty/mantisbase" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/3rdParty/mantisbase/3rdParty/bcrypt-cpp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/3rdParty/mantisbase/3rdParty/cmrc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/3rdParty/mantisbase/3rdParty/dukglue" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/3rdParty/mantisbase/3rdParty/httplib-cpp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/3rdParty/mantisbase/3rdParty/json" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/3rdParty/mantisbase/3rdParty/jwt-cpp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/3rdParty/mantisbase/3rdParty/mb-admin" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/3rdParty/mantisbase/3rdParty/soci" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/3rdParty/mantisbase/3rdParty/soci/3rdparty/sqlite3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/3rdParty/mantisbase/3rdParty/spdlog" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/3rdParty/mantisbase/3rdParty/wolfssl" vcs="Git" />
+  </component>
+</project>
