@@ -1,0 +1,22 @@
+#ifndef CONFIG_HPP_IN
+#define CONFIG_HPP_IN
+
+#define DIGISTO_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define DIGISTO_VERSION_MINOR @PROJECT_VERSION_MINOR@
+#define DIGISTO_VERSION_PATCH @PROJECT_VERSION_PATCH@
+#define DIGISTO_VERSION "@PROJECT_VERSION@"
+
+inline const char* getVersionString() {
+    return DIGISTO_VERSION;
+}
+
+inline constexpr std::tuple<int, int, int> getVersionTuple() {
+    return { DIGISTO_VERSION_MAJOR, DIGISTO_VERSION_MINOR, DIGISTO_VERSION_PATCH };
+}
+
+inline constexpr bool isVersionAtLeast(int major, int minor, int patch) {
+    return std::tuple(DIGISTO_VERSION_MAJOR, DIGISTO_VERSION_MINOR, DIGISTO_VERSION_PATCH)
+         >= std::tuple(major, minor, patch);
+}
+
+#endif // CONFIG_HPP_IN

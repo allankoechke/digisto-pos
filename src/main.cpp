@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 {
     QtWebView::initialize();        // WebEngine init
     QApplication app(argc, argv);   // App init
-    qApp->setApplicationName("Digisto POS - Client");
+    qApp->setApplicationName("co.ke.codeart.digisto");
 
     // Register message handler
     // qInstallMessageHandler(Configurator::messageHandler);

@@ -73,3 +73,6 @@ CMakeLists.txt.user*
 
 # build directory
 build
+
+# Generated config file
+config.hpp

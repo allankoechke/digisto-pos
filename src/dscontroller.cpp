@@ -3,6 +3,7 @@
 #include <QStandardPaths>
 #include "qaesencryption.h"
 #include "globals.h"
+#include "config.hpp"
 
 DsController::DsController(QObject *parent)
     : QObject{parent},
@@ -33,7 +34,7 @@ DsController::DsController(QObject *parent)
     config["serve"] = {{"port", 10453}, {"host", "127.0.0.1"}};
     config["dataDir"] = QString("%1/data").arg(baseDir).toStdString();
     config["publicDir"] = QString("%1/public").arg(baseDir).toStdString();
-    config["scriptsDir"] = QString("%1/public").arg(baseDir).toStdString();
+    config["scriptsDir"] = QString("%1/scripts").arg(baseDir).toStdString();
     config["poolSize"] = 6;
 
     // Instantiate Worker thread, connect exit func and start the thread.
@@ -47,25 +48,14 @@ DsController::DsController(QObject *parent)
     // Base endpoint for API calls
     setBaseUrl("http://127.0.0.1:10453");
 
-    QFile file(QStringLiteral(":/configs/app-config.json"));
-    if (!file.exists()) {
-        qCritical() << "Config resource file missing!";
-    }
-
-    auto ok = file.open(QIODevice::ReadOnly);
-    Q_ASSERT(ok);
-
-    QVariantMap configurations=QJsonDocument::fromJson(file.readAll()).toVariant().toMap();
-
-    qApp->setApplicationName(configurations["title"].toString() + " - Client");
-    qApp->setApplicationVersion(configurations["versionname"].toString());
-    qApp->setApplicationDisplayName(qApp->applicationName() + " v" + configurations["versionname"].toString());
-    qApp->setOrganizationName(configurations["organization_name"].toString());
+    qApp->setApplicationVersion(getVersionString());
+    qApp->setApplicationDisplayName(QString("%1 v%2").arg("Digisto POS", getVersionString()));
+    qApp->setOrganizationName("Codeart Studios");
     qApp->setWindowIcon(QIcon(":/assets/imgs/logo.png"));
-    qApp->setOrganizationDomain(configurations["organization_domain"].toString());
+    qApp->setOrganizationDomain("co.ke.codeart.digisto");
 
-    m_encryptionKey=configurations["encryption_key"].toString();
-    m_encryptionSalt=configurations["encryption_salt"].toString();
+    m_encryptionKey="";
+    m_encryptionSalt="";
 
     settings = std::make_shared<QSettings>(
         new QSettings(qApp->organizationName(),
