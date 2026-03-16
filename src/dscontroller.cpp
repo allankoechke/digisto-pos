@@ -1,19 +1,55 @@
 #include "dscontroller.h"
 #include <QIcon>
+#include <QStandardPaths>
 #include "qaesencryption.h"
+#include "globals.h"
 
 DsController::DsController(QObject *parent)
     : QObject{parent},
+    m_digistoBaseDir(""),
     m_baseUrl(""),
     m_isDarkTheme(false),
     m_startWindowMaximized(false),
     m_platform(QSysInfo::productType()),
-    m_isLoggedIn(false)
+    m_isLoggedIn(false),
+    mbWorker(nullptr)
 {
-    QFile file(QStringLiteral(":/configs/app-config.json"));
+    const QString baseDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 
+    // MantisBase imlementation entrypoint
+    mb::json config;
+    config["database"] = Configurator::getEnvOr("DIGISTO_DATABASE", "SQLITE").toStdString();
+
+    if(config["database"] != "SQLITE") {
+        // Get connection string
+        QString conn = Configurator::getEnvOr("DIGISTO_DB_CONNECTION");
+
+        if(conn.isEmpty())
+            throw QString("Missing connection string for database type: %1").arg(config["database"].get<std::string>()).toStdString();
+
+        config["connection"] = conn.toStdString();
+    }
+
+    config["serve"] = {{"port", 10453}, {"host", "127.0.0.1"}};
+    config["dataDir"] = QString("%1/data").arg(baseDir).toStdString();
+    config["publicDir"] = QString("%1/public").arg(baseDir).toStdString();
+    config["scriptsDir"] = QString("%1/public").arg(baseDir).toStdString();
+    config["poolSize"] = 6;
+
+    // Instantiate Worker thread, connect exit func and start the thread.
+    mbWorker = new MantisBaseImpl(config);
+    connect(mbWorker, &QThread::finished, &QObject::deleteLater);
+    mbWorker->start();
+
+    // Ensure worker thread is running
+    Q_ASSERT(mbWorker->isRunning());
+
+    // Base endpoint for API calls
+    setBaseUrl("http://127.0.0.1:10453");
+
+    QFile file(QStringLiteral(":/configs/app-config.json"));
     if (!file.exists()) {
-        qDebug() << "Resource file missing!";
+        qCritical() << "Config resource file missing!";
     }
 
     auto ok = file.open(QIODevice::ReadOnly);
@@ -21,12 +57,7 @@ DsController::DsController(QObject *parent)
 
     QVariantMap configurations=QJsonDocument::fromJson(file.readAll()).toVariant().toMap();
 
-#ifdef STANDALONE_SYSTEM
-    qApp->setApplicationName(configurations["title"].toString() + " - Standalone");
-#else
     qApp->setApplicationName(configurations["title"].toString() + " - Client");
-#endif
-
     qApp->setApplicationVersion(configurations["versionname"].toString());
     qApp->setApplicationDisplayName(qApp->applicationName() + " v" + configurations["versionname"].toString());
     qApp->setOrganizationName(configurations["organization_name"].toString());

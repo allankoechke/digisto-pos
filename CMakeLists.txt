@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(digistoapp VERSION 0.2.3 LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -22,9 +23,10 @@ set(SOURCES
     src/dscontroller.cpp src/dscontroller.h
     src/requests.cpp src/requests.h
     src/qaesencryption.h src/qaesencryption.cpp
-    src/localserver.h src/localserver.cpp
+
     src/permissionmanager.h src/permissionmanager.cpp
     src/singleinstanceguard.h src/singleinstanceguard.cpp
+    src/mb/mantisbaseimpl.h src/mb/mantisbaseimpl.cpp
 )
 
 if (WIN32)
@@ -32,7 +34,11 @@ if (WIN32)
     list(APPEND SOURCES ${APP_ICON_RESOURCE_FILES})
 endif()
 
-qt_add_executable(digisto ${SOURCES})
+qt_add_executable(digisto ${SOURCES}
+    src/mb/checkout.cpp
+    src/mb/dashboard.cpp
+    src/mb/organization.cpp
+    src/mb/supply.cpp)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
@@ -45,8 +51,8 @@ set_target_properties(digisto PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+# MantisBase dependency for digisto
 add_subdirectory(3rdParty/mantisbase)
-add_subdirectory(src/mb)
 
 target_link_libraries(digisto
     PRIVATE

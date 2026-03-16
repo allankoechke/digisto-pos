@@ -1,3 +1,6 @@
+#include "mantisbaseimpl.h"
+
+/*
 // Fetch total sales endpoint
 routerAdd("GET", "/fn/dashboard/total-sales", (e) => {
               var loggedUser = e.auth // empty if not authenticated as regular auth record
@@ -185,3 +188,5 @@ routerAdd("GET", "/fn/dashboard/low-stock", (e) => {
                   return e.json(500, { status: 500, error: err, data: {} })
               }
           }, $apis.requireAuth("tellers"))
+
+*/

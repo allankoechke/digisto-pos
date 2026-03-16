@@ -5,11 +5,17 @@
 #include <QDateTime>
 #include <QFile>
 #include <QProcessEnvironment>
+#include <QtEnvironmentVariables>
 
 
 class Configurator {
 public:
     Configurator() = default;
+
+    static QString getEnvOr(const QString& varName, const QString& defaultVal = "") {
+        return qEnvironmentVariableIsSet(varName.toStdString().c_str()) ?
+                   qEnvironmentVariable(varName.toStdString().c_str()) : defaultVal;
+    }
 
     static QString logFilePath() {
         return QString("%1/digisto.log").arg(Configurator::appDataDir());

@@ -1,15 +1,29 @@
 #ifndef MANTISBASEIMPL_H
 #define MANTISBASEIMPL_H
 
-#include <QObject>
+#include <mantisbase/mantisbase.h>
 
-class MantisBaseImpl : public QObject
+#include <QObject>
+#include <QThread>
+
+class MantisBaseImpl : public QThread
 {
     Q_OBJECT
 public:
-    explicit MantisBaseImpl(QObject *parent = nullptr);
+    Q_PROPERTY(bool isServerRunning READ isServerRunning NOTIFY isServerRunningChanged FINAL)
+
+    explicit MantisBaseImpl(mb::json config = {});
+    ~MantisBaseImpl();
+
+    void run() override;
+
+    bool isServerRunning() const;
 
 signals:
+    void isServerRunningChanged();
+
+private:
+    mb::MantisBase& mApp;
 };
 
 #endif // MANTISBASEIMPL_H

@@ -102,7 +102,7 @@ DsPage {
     Requests {
         id: loginrequest
         baseUrl: dsController.baseUrl
-        path: "/api/collections/tellers/auth-with-password"
+        path: "/api/v1/auth/login"
         method: "POST"
     }
 
@@ -128,36 +128,28 @@ DsPage {
             return;
         }
 
-        if(password.length < 4) {
+        if(password.trim().length < 8) {
             passwordinput.hasError = true;
             passwordinput.errorString = qsTr("Password is too short!")
             return;
         }
 
-        // Create a search query
-        var query = {
-            expand: "organization"
-        }
-
         var body = {
             identity,
-            password
+            password,
+            entity: "tellers"
         }
 
         loginrequest.clear()
-        loginrequest.query = query;
         loginrequest.body = body;
         var res = loginrequest.send();
 
         if(res.status===200) {
+            console.log(JSON.stringify(res))
             // Extract response data ...
             var data = res.data
             var token = data.token
             var user = data.record
-            var orgDataExists = user.hasOwnProperty('expand') &&
-                    user.expand.hasOwnProperty('organization')
-            var org = (user.organization==='' || !orgDataExists) ?
-                        null : user.expand.organization
 
             dsController.token = token;
             dsController.loggedUser = user;

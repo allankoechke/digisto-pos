@@ -1,4 +1,7 @@
-// Create a new suppply from the given data
+#include "mantisbaseimpl.h"
+
+/*
+ * // Create a new suppply from the given data
 routerAdd("POST", "/fn/create-supply", (e) => {
               var loggedUser = e.auth // empty if not authenticated as regular auth record
 
@@ -60,3 +63,5 @@ routerAdd("POST", "/fn/create-supply", (e) => {
 
               return e.json(200, { code: 200, "message": "Supply record created", data: supply_record_saved })
           }, $apis.requireAuth("tellers"))
+
+*/

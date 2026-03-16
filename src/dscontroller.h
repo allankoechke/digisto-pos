@@ -17,12 +17,16 @@
 #include <QTcpServer>
 #include <QHostAddress>
 
+#include "mb/mantisbaseimpl.h"
+
 class DsController : public QObject
 {
     Q_OBJECT
 public:
     explicit DsController(QObject *parent = nullptr);
     ~DsController();
+
+    Q_PROPERTY(QString digistoBaseDir MEMBER m_digistoBaseDir NOTIFY digistoBaseDirChanged FINAL)
 
     // Bool if user has logged in
     Q_PROPERTY(bool isLoggedIn MEMBER m_isLoggedIn NOTIFY isLoggedInChanged FINAL)
@@ -115,6 +119,8 @@ signals:
 
     void isLoggedInChanged();
 
+    void digistoBaseDirChanged();
+
 private:
     // -------------------------------- |
     //  METHODS
@@ -137,6 +143,8 @@ private:
     QVariantMap m_organization;
     QString m_baseUrl;
     bool m_isLoggedIn;
+    MantisBaseImpl* mbWorker;
+    QString m_digistoBaseDir;
 };
 
 #endif // DSCONTROLLER_H
