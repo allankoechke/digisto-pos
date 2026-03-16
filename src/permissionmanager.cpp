@@ -7,14 +7,9 @@ PermissionManager::PermissionManager(DsController *dsController, QObject *parent
     : QObject { parent },
     m_dsController(dsController)
 {
-    // Load permission template from the json file
-    QFile file(QStringLiteral(":/configs/permissions-templ.json"));
-    auto ok = file.open(QIODevice::ReadOnly);
-    Q_ASSERT(ok);
-
     // Create QVariantMap out of the template json
-    m_permissionTemplate =
-        QJsonDocument::fromJson(file.readAll()).toVariant().toMap();
+    m_permissionTemplate = QJsonDocument().toVariant().toMap();
+        // QJsonDocument::fromJson(file.readAll()).toVariant().toMap();
 
     // Connect permission checks for changing user details
     connect(dsController, &DsController::loggedUserChanged,
