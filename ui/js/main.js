@@ -18,7 +18,7 @@ function checkIfLoggedIn() {
             dsController.organization.id && dsController.organization.id!==""
 
     // console.log(tokenIsValid, loggedUserIsValid, orgIsValid)
-    return tokenIsValid===true && loggedUserIsValid===true && orgIsValid===true
+    return tokenIsValid===true && loggedUserIsValid===true // && orgIsValid===true
 }
 
 function logout() {

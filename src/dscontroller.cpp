@@ -1,9 +1,12 @@
 #include "dscontroller.h"
 #include <QIcon>
 #include <QStandardPaths>
+#include <filesystem>
 #include "qaesencryption.h"
 #include "globals.h"
 #include "config.hpp"
+
+using fs = std::filesystem::path;
 
 DsController::DsController(QObject *parent)
     : QObject{parent},
@@ -31,22 +34,24 @@ DsController::DsController(QObject *parent)
         config["connection"] = conn.toStdString();
     }
 
+    qDebug() << "Data Dir: " << (fs(baseDir.toStdString()) / "data").string();
+    config["dev"] = true;
     config["serve"] = {{"port", 10453}, {"host", "127.0.0.1"}};
-    config["dataDir"] = QString("%1/data").arg(baseDir).toStdString();
-    config["publicDir"] = QString("%1/public").arg(baseDir).toStdString();
-    config["scriptsDir"] = QString("%1/scripts").arg(baseDir).toStdString();
+    config["dataDir"] = (fs(baseDir.toStdString()) / "data").string();
+    config["publicDir"] = (fs(baseDir.toStdString()) / "public").string();
+    config["scriptsDir"] = (fs(baseDir.toStdString()) / "scripts").string();
     config["poolSize"] = 6;
 
     // Instantiate Worker thread, connect exit func and start the thread.
-    mbWorker = new MantisBaseImpl(config);
-    connect(mbWorker, &QThread::finished, &QObject::deleteLater);
-    mbWorker->start();
+    // mbWorker = new MantisBaseImpl(config);
+    // connect(mbWorker, &QThread::finished, &QObject::deleteLater);
+    // mbWorker->start();
 
     // Ensure worker thread is running
-    Q_ASSERT(mbWorker->isRunning());
+    // Q_ASSERT(mbWorker->isRunning());
 
     // Base endpoint for API calls
-    setBaseUrl("http://127.0.0.1:10453");
+    setBaseUrl("http://127.0.0.1:7070");
 
     qApp->setApplicationVersion(getVersionString());
     qApp->setApplicationDisplayName(QString("%1 v%2").arg("Digisto POS", getVersionString()));

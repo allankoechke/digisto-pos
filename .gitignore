@@ -76,3 +76,4 @@ build
 
 # Generated config file
 config.hpp
+.idea/

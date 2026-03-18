@@ -122,7 +122,6 @@ DsPage {
         var identity = emailinput.input.text.trim()
         var password = passwordinput.input.text.trim()
 
-        // TODO Accepted username chars?
         if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(identity) || identity.length < 4 ) {
             emailinput.hasError = true;
             return;
@@ -145,16 +144,15 @@ DsPage {
         var res = loginrequest.send();
 
         if(res.status===200) {
-            console.log(JSON.stringify(res))
             // Extract response data ...
-            var data = res.data
+            var data = res.data.data
             var token = data.token
-            var user = data.record
+            var user = data.user
 
             dsController.token = token;
             dsController.loggedUser = user;
-            dsController.organization = org ? org : {};
-            dsController.workspaceId = org ? org.id : '';
+            dsController.organization = {};
+            dsController.workspaceId = '';
 
             clearInputs()
 
@@ -166,10 +164,10 @@ DsPage {
 
             // Check if user is part of an organization,
             // if not so, go to create organization.
-            else if(!org || !org.id || (org && org.id==='')) {
-                toast.success(qsTr("We couldn't find any organization for you!"))
-                mandatoryCreateOrGetOrganization()
-            }
+            // else if(!org || !org.id || (org && org.id==='')) {
+                // toast.success(qsTr("We couldn't find any organization for you!"))
+                // mandatoryCreateOrGetOrganization()
+            // }
 
             else {
                 // All checks fine, lets then check if we can log in finally!
