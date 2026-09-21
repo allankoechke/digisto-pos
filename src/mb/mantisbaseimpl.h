@@ -1,7 +1,7 @@
 #ifndef MANTISBASEIMPL_H
 #define MANTISBASEIMPL_H
 
-#include <mantisbase/mantisbase.h>
+#include <mantisbase/mantis.h>
 
 #include <QObject>
 #include <QThread>
