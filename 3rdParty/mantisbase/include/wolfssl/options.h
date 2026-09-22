@@ -1,0 +1,862 @@
+/* options.h.in
+ *
+ * Copyright (C) 2006-2026 wolfSSL Inc.
+ *
+ * This file is part of wolfSSL.
+ *
+ * wolfSSL is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * wolfSSL is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335, USA
+ */
+
+
+/* cmake template for options.h */
+
+#ifdef WOLFSSL_NO_OPTIONS_H
+/* options.h inhibited by configuration */
+#elif !defined(WOLFSSL_OPTIONS_H)
+#define WOLFSSL_OPTIONS_H
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifndef WOLFSSL_OPTIONS_IGNORE_SYS
+#undef _GNU_SOURCE
+/* #undef _GNU_SOURCE */
+#undef _POSIX_THREADS
+/* #undef _POSIX_THREADS */
+#endif
+/* Since types.h depends on HAVE_LIMITS_H, we must define it in options.h. */
+#undef HAVE_LIMITS_H
+#define HAVE_LIMITS_H 1
+#undef ASIO_USE_WOLFSSL
+/* #undef ASIO_USE_WOLFSSL */
+#undef BOOST_ASIO_USE_WOLFSSL
+/* #undef BOOST_ASIO_USE_WOLFSSL */
+#undef CURVE25519_SMALL
+/* #undef CURVE25519_SMALL */
+#undef CURVE448_SMALL
+/* #undef CURVE448_SMALL */
+#undef DEBUG
+/* #undef DEBUG */
+#undef DEBUG_WOLFSSL
+/* #undef DEBUG_WOLFSSL */
+#undef ECC_SHAMIR
+#define ECC_SHAMIR
+#undef ECC_TIMING_RESISTANT
+#define ECC_TIMING_RESISTANT
+#undef ED25519_SMALL
+/* #undef ED25519_SMALL */
+#undef ED448_SMALL
+/* #undef ED448_SMALL */
+#undef GCM_SMALL
+/* #undef GCM_SMALL */
+#undef GCM_TABLE
+/* #undef GCM_TABLE */
+#undef GCM_TABLE_4BIT
+#define GCM_TABLE_4BIT
+#undef GCM_WORD32
+/* #undef GCM_WORD32 */
+#undef HAVE___UINT128_T
+#define HAVE___UINT128_T 1
+#undef HAVE_AES_KEYWRAP
+/* #undef HAVE_AES_KEYWRAP */
+#undef HAVE_AESCCM
+/* #undef HAVE_AESCCM */
+#undef HAVE_AESGCM
+#define HAVE_AESGCM
+#undef HAVE_ALPN
+/* #undef HAVE_ALPN */
+#undef HAVE_ARIA
+/* #undef HAVE_ARIA */
+#undef HAVE_CERTIFICATE_STATUS_REQUEST
+/* #undef HAVE_CERTIFICATE_STATUS_REQUEST */
+#undef HAVE_CERTIFICATE_STATUS_REQUEST_V2
+/* #undef HAVE_CERTIFICATE_STATUS_REQUEST_V2 */
+#undef HAVE_CHACHA
+#define HAVE_CHACHA
+#undef HAVE_CRL
+/* #undef HAVE_CRL */
+#undef HAVE_CRL_IO
+/* #undef HAVE_CRL_IO */
+#undef WOLFSSL_CUSTOM_CURVES
+/* #undef WOLFSSL_CUSTOM_CURVES */
+#undef HAVE_CURVE25519
+/* #undef HAVE_CURVE25519 */
+#undef HAVE_CURVE448
+/* #undef HAVE_CURVE448 */
+#undef HAVE_DH_DEFAULT_PARAMS
+#define HAVE_DH_DEFAULT_PARAMS
+#undef WOLFSSL_HAVE_MLDSA
+/* #undef WOLFSSL_HAVE_MLDSA */
+#undef HAVE_ECC
+#define HAVE_ECC
+#undef HAVE_ECH
+/* #undef HAVE_ECH */
+#undef HAVE_ED25519
+/* #undef HAVE_ED25519 */
+#undef HAVE_ED448
+/* #undef HAVE_ED448 */
+#undef HAVE_ENCRYPT_THEN_MAC
+#define HAVE_ENCRYPT_THEN_MAC
+#undef HAVE_EX_DATA
+/* #undef HAVE_EX_DATA */
+#undef HAVE_EXTENDED_MASTER
+#define HAVE_EXTENDED_MASTER
+#undef HAVE_FFDHE_2048
+#define HAVE_FFDHE_2048
+#undef HAVE_HASHDRBG
+#define HAVE_HASHDRBG
+#undef HAVE_HKDF
+#define HAVE_HKDF
+#undef HAVE_HPKE
+/* #undef HAVE_HPKE */
+#undef HAVE_KEYING_MATERIAL
+/* #undef HAVE_KEYING_MATERIAL */
+#undef HAVE_MAX_FRAGMENT
+/* #undef HAVE_MAX_FRAGMENT */
+#undef HAVE_OCSP
+/* #undef HAVE_OCSP */
+#undef HAVE_ONE_TIME_AUTH
+#define HAVE_ONE_TIME_AUTH
+#undef HAVE_PKCS7
+/* #undef HAVE_PKCS7 */
+#undef HAVE_POLY1305
+#define HAVE_POLY1305
+#undef HAVE_PTHREAD
+#define HAVE_PTHREAD 1
+#undef HAVE_REPRODUCIBLE_BUILD
+/* #undef HAVE_REPRODUCIBLE_BUILD */
+#undef HAVE_SESSION_TICKET
+/* #undef HAVE_SESSION_TICKET */
+#undef HAVE_SNI
+#define HAVE_SNI
+#undef HAVE_SUPPORTED_CURVES
+#define HAVE_SUPPORTED_CURVES
+#undef HAVE_THREAD_LS
+#define HAVE_THREAD_LS
+#undef HAVE_TLS_EXTENSIONS
+#define HAVE_TLS_EXTENSIONS
+#undef HAVE_TRUNCATED_HMAC
+/* #undef HAVE_TRUNCATED_HMAC */
+#undef HAVE_TRUSTED_CA
+/* #undef HAVE_TRUSTED_CA */
+#undef HAVE_X963_KDF
+/* #undef HAVE_X963_KDF */
+#undef NO_AES
+/* #undef NO_AES */
+#undef NO_AES_CBC
+/* #undef NO_AES_CBC */
+#undef NO_ASN
+/* #undef NO_ASN */
+#undef NO_ASN_CRYPT
+/* #undef NO_ASN_CRYPT */
+#undef NO_BIG_INT
+/* #undef NO_BIG_INT */
+#undef NO_CERTS
+/* #undef NO_CERTS */
+#undef NO_CHACHA_ASM
+/* #undef NO_CHACHA_ASM */
+#undef NO_CODING
+/* #undef NO_CODING */
+#undef NO_CURVED25519_128BIT
+/* #undef NO_CURVED25519_128BIT */
+#undef NO_CURVED448_128BIT
+/* #undef NO_CURVED448_128BIT */
+#undef NO_DES3
+#define NO_DES3
+#undef NO_DH
+/* #undef NO_DH */
+#undef NO_DSA
+#define NO_DSA
+#undef NO_ERROR_QUEUE
+/* #undef NO_ERROR_QUEUE */
+#undef NO_ERROR_STRINGS
+/* #undef NO_ERROR_STRINGS */
+#undef NO_FILESYSTEM
+/* #undef NO_FILESYSTEM */
+#undef NO_INLINE
+/* #undef NO_INLINE */
+#undef NO_MD4
+#define NO_MD4
+#undef NO_MD5
+/* #undef NO_MD5 */
+#undef NO_OLD_RNGNAME
+/* #undef NO_OLD_RNGNAME */
+#undef NO_OLD_SHA_NAMES
+/* #undef NO_OLD_SHA_NAMES */
+#undef NO_OLD_SSL_NAMES
+/* #undef NO_OLD_SSL_NAMES */
+#undef NO_OLD_TLS
+#define NO_OLD_TLS
+#undef NO_OLD_WC_NAMES
+/* #undef NO_OLD_WC_NAMES */
+#undef NO_PKCS12
+/* #undef NO_PKCS12 */
+#undef NO_PSK
+#define NO_PSK
+#undef NO_PWDBASED
+/* #undef NO_PWDBASED */
+#undef NO_RC4
+#define NO_RC4
+#undef NO_RSA
+/* #undef NO_RSA */
+#undef NO_SESSION_CACHE_REF
+/* #undef NO_SESSION_CACHE_REF */
+#undef NO_SHA
+/* #undef NO_SHA */
+#undef NO_WOLFSSL_MEMORY
+/* #undef NO_WOLFSSL_MEMORY */
+#undef OPENSSL_ALL
+/* #undef OPENSSL_ALL */
+#undef OPENSSL_EXTRA
+#define OPENSSL_EXTRA
+#undef OPENSSL_NO_SSL2
+/* #undef OPENSSL_NO_SSL2 */
+#undef OPENSSL_NO_SSL3
+/* #undef OPENSSL_NO_SSL3 */
+#undef SSL_TXT_TLSV1_2
+/* #undef SSL_TXT_TLSV1_2 */
+#undef TFM_ECC256
+#define TFM_ECC256
+#undef TFM_NO_ASM
+/* #undef TFM_NO_ASM */
+#undef TFM_TIMING_RESISTANT
+#define TFM_TIMING_RESISTANT
+#undef USE_FAST_MATH
+/* #undef USE_FAST_MATH */
+#undef WC_16BIT_CPU
+/* #undef WC_16BIT_CPU */
+#undef WC_32BIT_CPU
+/* #undef WC_32BIT_CPU */
+#undef WC_ECC_NONBLOCK
+/* #undef WC_ECC_NONBLOCK */
+#undef WC_NO_ASYNC_THREADING
+#define WC_NO_ASYNC_THREADING
+#undef WC_NO_HARDEN
+/* #undef WC_NO_HARDEN */
+#undef WC_NO_HASHDRBG
+/* #undef WC_NO_HASHDRBG */
+#undef WC_NO_RNG
+/* #undef WC_NO_RNG */
+#undef WC_NO_RSA_OAEP
+/* #undef WC_NO_RSA_OAEP */
+#undef WC_RSA_BLINDING
+#define WC_RSA_BLINDING
+#undef WC_RSA_NO_PADDING
+/* #undef WC_RSA_NO_PADDING */
+#undef WC_RSA_PSS
+#define WC_RSA_PSS
+#undef WOLF_CRYPTO_CB
+/* #undef WOLF_CRYPTO_CB */
+#undef WOLF_CRYPTO_CB_RSA_PAD
+/* #undef WOLF_CRYPTO_CB_RSA_PAD */
+#undef WOLFSSL_AARCH64_BUILD
+/* #undef WOLFSSL_AARCH64_BUILD */
+#undef WOLFSSL_AES_CFB
+/* #undef WOLFSSL_AES_CFB */
+#undef WOLFSSL_AES_COUNTER
+/* #undef WOLFSSL_AES_COUNTER */
+#undef WOLFSSL_AES_DIRECT
+/* #undef WOLFSSL_AES_DIRECT */
+#undef WOLFSSL_AES_OFB
+/* #undef WOLFSSL_AES_OFB */
+#undef WOLFSSL_AES_SIV
+/* #undef WOLFSSL_AES_SIV */
+#undef HAVE_AES_ECB
+/* #undef HAVE_AES_ECB */
+#undef WOLFSSL_AES_CTS
+/* #undef WOLFSSL_AES_CTS */
+#undef WOLFSSL_ALT_CERT_CHAINS
+/* #undef WOLFSSL_ALT_CERT_CHAINS */
+#undef WOLFSSL_APPLE_NATIVE_CERT_VALIDATION
+/* #undef WOLFSSL_APPLE_NATIVE_CERT_VALIDATION */
+#undef WOLFSSL_ASIO
+/* #undef WOLFSSL_ASIO */
+#undef WOLFSSL_BASE64_ENCODE
+#define WOLFSSL_BASE64_ENCODE
+#undef WOLFSSL_CAAM
+/* #undef WOLFSSL_CAAM */
+#undef WOLFSSL_CERT_EXT
+/* #undef WOLFSSL_CERT_EXT */
+#undef WOLFSSL_CERT_GEN
+/* #undef WOLFSSL_CERT_GEN */
+#undef WOLFSSL_CERT_GEN_CACHE
+/* #undef WOLFSSL_CERT_GEN_CACHE */
+#undef WOLFSSL_CERT_NAME_ALL
+/* #undef WOLFSSL_CERT_NAME_ALL */
+#undef WOLFSSL_CERT_REQ
+/* #undef WOLFSSL_CERT_REQ */
+#undef WOLFSSL_CMAC
+/* #undef WOLFSSL_CMAC */
+#undef WOLFSSL_DES_ECB
+/* #undef WOLFSSL_DES_ECB */
+#undef WOLFSSL_DH_CONST
+/* #undef WOLFSSL_DH_CONST */
+#undef WOLFSSL_DTLS
+/* #undef WOLFSSL_DTLS */
+#undef WOLFSSL_DTLS_CID
+/* #undef WOLFSSL_DTLS_CID */
+#undef WOLFSSL_DTLS13
+/* #undef WOLFSSL_DTLS13 */
+#undef WOLFSSL_DTLS_CH_FRAG
+/* #undef WOLFSSL_DTLS_CH_FRAG */
+#undef WOLFSSL_CERT_WITH_EXTERN_PSK
+/* #undef WOLFSSL_CERT_WITH_EXTERN_PSK */
+#undef WOLFSSL_EITHER_SIDE
+/* #undef WOLFSSL_EITHER_SIDE */
+#undef WOLFSSL_ENCRYPTED_KEYS
+#define WOLFSSL_ENCRYPTED_KEYS
+#undef WOLFSSL_ERROR_CODE_OPENSSL
+/* #undef WOLFSSL_ERROR_CODE_OPENSSL */
+#undef WOLFSSL_IP_ALT_NAME
+/* #undef WOLFSSL_IP_ALT_NAME */
+#undef WOLFSSL_KEY_GEN
+#define WOLFSSL_KEY_GEN
+#undef WOLFSSL_NO_ASM
+/* #undef WOLFSSL_NO_ASM */
+#undef WOLFSSL_NO_SHAKE128
+/* #undef WOLFSSL_NO_SHAKE128 */
+#undef WOLFSSL_NO_SHAKE256
+/* #undef WOLFSSL_NO_SHAKE256 */
+#undef WOLFSSL_NO_TLS12
+/* #undef WOLFSSL_NO_TLS12 */
+#undef WOLFSSL_POST_HANDSHAKE_AUTH
+/* #undef WOLFSSL_POST_HANDSHAKE_AUTH */
+#undef WOLFSSL_PSS_LONG_SALT
+#define WOLFSSL_PSS_LONG_SALT
+#undef WOLFSSL_PUBLIC_MP
+/* #undef WOLFSSL_PUBLIC_MP */
+#undef WOLFSSL_QUIC
+/* #undef WOLFSSL_QUIC */
+#undef WOLFSSL_SEND_HRR_COOKIE
+/* #undef WOLFSSL_SEND_HRR_COOKIE */
+#undef WOLFSSL_SHA224
+#define WOLFSSL_SHA224
+#undef WOLFSSL_SHA3
+#define WOLFSSL_SHA3
+#undef WOLFSSL_SHA3_SMALL
+/* #undef WOLFSSL_SHA3_SMALL */
+#undef WOLFSSL_SHA384
+#define WOLFSSL_SHA384
+#undef WOLFSSL_SHA512
+#define WOLFSSL_SHA512
+#undef WOLFSSL_SHAKE128
+#define WOLFSSL_SHAKE128
+#undef WOLFSSL_SHAKE256
+#define WOLFSSL_SHAKE256
+#undef WOLFSSL_CSHAKE
+/* #undef WOLFSSL_CSHAKE */
+#undef WOLFSSL_KMAC
+/* #undef WOLFSSL_KMAC */
+#undef WOLFSSL_SRTP
+/* #undef WOLFSSL_SRTP */
+#undef WOLFSSL_SYS_CA_CERTS
+#define WOLFSSL_SYS_CA_CERTS
+#undef WOLFSSL_TICKET_HAVE_ID
+/* #undef WOLFSSL_TICKET_HAVE_ID */
+#undef WOLFSSL_TICKET_NONCE_MALLOC
+/* #undef WOLFSSL_TICKET_NONCE_MALLOC */
+#undef WOLFSSL_TLS13
+#define WOLFSSL_TLS13
+#undef WOLFSSL_USE_ALIGN
+#define WOLFSSL_USE_ALIGN
+#undef WOLFSSL_USER_SETTINGS
+/* #undef WOLFSSL_USER_SETTINGS */
+#undef WOLFSSL_USER_SETTINGS_ASM
+/* #undef WOLFSSL_USER_SETTINGS_ASM */
+#undef WOLFSSL_W64_WRAPPER
+/* #undef WOLFSSL_W64_WRAPPER */
+#undef WOLFSSL_WOLFSSH
+/* #undef WOLFSSL_WOLFSSH */
+#undef WOLFSSL_X86_64_BUILD
+#define WOLFSSL_X86_64_BUILD
+#undef NO_DES3_TLS_SUITES
+#define NO_DES3_TLS_SUITES
+#undef WOLFSSL_EXPERIMENTAL_SETTINGS
+/* #undef WOLFSSL_EXPERIMENTAL_SETTINGS */
+#undef WOLFSSL_HAVE_MLKEM
+#define WOLFSSL_HAVE_MLKEM
+#undef WOLFSSL_TLS_NO_MLKEM_STANDALONE
+#define WOLFSSL_TLS_NO_MLKEM_STANDALONE
+#undef NO_WOLFSSL_STUB
+/* #undef NO_WOLFSSL_STUB */
+#undef HAVE_ECC_SECPR2
+/* #undef HAVE_ECC_SECPR2 */
+#undef HAVE_ECC_SECPR3
+/* #undef HAVE_ECC_SECPR3 */
+#undef HAVE_ECC_BRAINPOOL
+/* #undef HAVE_ECC_BRAINPOOL */
+#undef HAVE_ECC_KOBLITZ
+/* #undef HAVE_ECC_KOBLITZ */
+#undef HAVE_ECC_CDH
+/* #undef HAVE_ECC_CDH */
+#undef WOLFSSL_HAVE_LMS
+/* #undef WOLFSSL_HAVE_LMS */
+#undef WOLFSSL_WC_LMS
+/* #undef WOLFSSL_WC_LMS */
+#undef  WOLFSSL_LMS_SHA256_192
+/* #undef WOLFSSL_LMS_SHA256_192 */
+#undef  WOLFSSL_NO_LMS_SHA256_256
+/* #undef WOLFSSL_NO_LMS_SHA256_256 */
+#undef  WOLFSSL_LMS_VERIFY_ONLY
+/* #undef WOLFSSL_LMS_VERIFY_ONLY */
+#undef  WOLFSSL_WC_LMS_SMALL
+/* #undef WOLFSSL_WC_LMS_SMALL */
+#undef  WOLFSSL_LMS_SHAKE256
+/* #undef WOLFSSL_LMS_SHAKE256 */
+#undef WOLFSSL_HAVE_XMSS
+/* #undef WOLFSSL_HAVE_XMSS */
+#undef WOLFSSL_WC_XMSS
+/* #undef WOLFSSL_WC_XMSS */
+#undef  WOLFSSL_XMSS_VERIFY_ONLY
+/* #undef WOLFSSL_XMSS_VERIFY_ONLY */
+#undef  WOLFSSL_WC_XMSS_SMALL
+/* #undef WOLFSSL_WC_XMSS_SMALL */
+#undef HAVE_SECRET_CALLBACK
+/* #undef HAVE_SECRET_CALLBACK */
+#undef WC_RSA_DIRECT
+/* #undef WC_RSA_DIRECT */
+#undef WOLFSSL_HAVE_SLHDSA
+/* #undef WOLFSSL_HAVE_SLHDSA */
+#undef WOLFSSL_WC_SLHDSA
+/* #undef WOLFSSL_WC_SLHDSA */
+#undef WOLFSSL_PQC_HYBRIDS
+#define WOLFSSL_PQC_HYBRIDS
+#undef WOLFSSL_EXTRA_PQC_HYBRIDS
+/* #undef WOLFSSL_EXTRA_PQC_HYBRIDS */
+
+/* Parity with configure.ac -- additional options */
+#undef WOLFSSL_KERNEL_BENCHMARKS
+/* #undef WOLFSSL_KERNEL_BENCHMARKS */
+#undef WOLFSSL_KERNEL_VERBOSE_DEBUG
+/* #undef WOLFSSL_KERNEL_VERBOSE_DEBUG */
+#undef WOLFSSL_KERNEL_STACK_DEBUG
+/* #undef WOLFSSL_KERNEL_STACK_DEBUG */
+#undef WOLFSSL_KERNEL_MODE_DEFAULTS
+/* #undef WOLFSSL_KERNEL_MODE_DEFAULTS */
+#undef WC_SYM_RELOC_TABLES
+/* #undef WC_SYM_RELOC_TABLES */
+#undef WOLFSSL_LINUXKM_BENCHMARKS
+/* #undef WOLFSSL_LINUXKM_BENCHMARKS */
+#undef WOLFSSL_DEBUG_CODEPOINTS
+/* #undef WOLFSSL_DEBUG_CODEPOINTS */
+#undef WOLFSSL_MEMORY_LOG
+/* #undef WOLFSSL_MEMORY_LOG */
+#undef WOLFSSL_STACK_LOG
+/* #undef WOLFSSL_STACK_LOG */
+#undef HAVE_CAMELLIA
+/* #undef HAVE_CAMELLIA */
+#undef HAVE_BLAKE2B
+/* #undef HAVE_BLAKE2B */
+#undef HAVE_BLAKE2S
+/* #undef HAVE_BLAKE2S */
+#undef WC_RC2
+/* #undef WC_RC2 */
+#undef HAVE_ASCON
+/* #undef HAVE_ASCON */
+#undef WOLFSSL_AES_EAX
+/* #undef WOLFSSL_AES_EAX */
+#undef WOLFSSL_AES_CBC_LENGTH_CHECKS
+/* #undef WOLFSSL_AES_CBC_LENGTH_CHECKS */
+#undef HAVE_INTEL_RDRAND
+/* #undef HAVE_INTEL_RDRAND */
+#undef HAVE_INTEL_RDSEED
+/* #undef HAVE_INTEL_RDSEED */
+#undef HAVE_AMD_RDSEED
+/* #undef HAVE_AMD_RDSEED */
+#undef TITAN_SESSION_CACHE
+/* #undef TITAN_SESSION_CACHE */
+#undef HUGE_SESSION_CACHE
+/* #undef HUGE_SESSION_CACHE */
+#undef BIG_SESSION_CACHE
+/* #undef BIG_SESSION_CACHE */
+#undef SMALL_SESSION_CACHE
+/* #undef SMALL_SESSION_CACHE */
+#undef PERSIST_SESSION_CACHE
+/* #undef PERSIST_SESSION_CACHE */
+#undef PERSIST_CERT_CACHE
+/* #undef PERSIST_CERT_CACHE */
+#undef WOLFSSL_ALLOW_TLSV10
+/* #undef WOLFSSL_ALLOW_TLSV10 */
+#undef HAVE_RENEGOTIATION_INDICATION
+/* #undef HAVE_RENEGOTIATION_INDICATION */
+#undef HAVE_FALLBACK_SCSV
+/* #undef HAVE_FALLBACK_SCSV */
+#undef HAVE_WRITE_DUP
+/* #undef HAVE_WRITE_DUP */
+#undef ATOMIC_USER
+/* #undef ATOMIC_USER */
+#undef WOLFSSL_USE_RWLOCK
+/* #undef WOLFSSL_USE_RWLOCK */
+#undef WOLFSSL_DTLS_MTU
+/* #undef WOLFSSL_DTLS_MTU */
+#undef WOLFSSL_HMAC_COPY_HASH
+/* #undef WOLFSSL_HMAC_COPY_HASH */
+#undef WOLFSSL_CERT_SIGN_CB
+/* #undef WOLFSSL_CERT_SIGN_CB */
+#undef WOLFSSL_SEP
+/* #undef WOLFSSL_SEP */
+#undef KEEP_PEER_CERT
+/* #undef KEEP_PEER_CERT */
+#undef WOLFSSL_ASN_PRINT
+#define WOLFSSL_ASN_PRINT
+#undef ASN_BER_TO_DER
+/* #undef ASN_BER_TO_DER */
+#undef WOLFSSL_TEST_CERT
+/* #undef WOLFSSL_TEST_CERT */
+#undef WOLFCRYPT_HAVE_SRP
+/* #undef WOLFCRYPT_HAVE_SRP */
+#undef HAVE_MOSQUITTO
+/* #undef HAVE_MOSQUITTO */
+#undef HAVE_WEBSERVER
+/* #undef HAVE_WEBSERVER */
+#undef HAVE_HTTP_CLIENT
+/* #undef HAVE_HTTP_CLIENT */
+#undef WC_CUDA
+/* #undef WC_CUDA */
+#undef HAVE_CUDA
+/* #undef HAVE_CUDA */
+#undef WOLF_C89
+/* #undef WOLF_C89 */
+#undef WOLFSSL_AUTOSAR
+/* #undef WOLFSSL_AUTOSAR */
+#undef WOLFSSL_HASH_FLAGS
+/* #undef WOLFSSL_HASH_FLAGS */
+#undef WOLFSSL_XILINX
+/* #undef WOLFSSL_XILINX */
+#undef WOLFSSL_XILINX_CRYPT
+/* #undef WOLFSSL_XILINX_CRYPT */
+#undef WOLFSSL_CHECK_SIG_FAULTS
+/* #undef WOLFSSL_CHECK_SIG_FAULTS */
+#undef WOLFSSL_CHECK_VER_FAULTS
+/* #undef WOLFSSL_CHECK_VER_FAULTS */
+#undef WC_SHA3_FAULT_HARDEN
+/* #undef WC_SHA3_FAULT_HARDEN */
+#undef WC_MLKEM_FAULT_HARDEN
+/* #undef WC_MLKEM_FAULT_HARDEN */
+#undef WC_MLDSA_FAULT_HARDEN
+/* #undef WC_MLDSA_FAULT_HARDEN */
+#undef WOLFSSL_SM3
+/* #undef WOLFSSL_SM3 */
+#undef WOLFSSL_SM3_SMALL
+/* #undef WOLFSSL_SM3_SMALL */
+#undef WOLFSSL_TRACK_MEMORY
+/* #undef WOLFSSL_TRACK_MEMORY */
+#undef WOLFSSL_DEBUG_MEMORY
+/* #undef WOLFSSL_DEBUG_MEMORY */
+#undef WOLFSSL_FORCE_MALLOC_FAIL_TEST
+/* #undef WOLFSSL_FORCE_MALLOC_FAIL_TEST */
+#undef WOLFSSL_DEBUG_TRACE_ERROR_CODES
+/* #undef WOLFSSL_DEBUG_TRACE_ERROR_CODES */
+#undef WOLFSSL_DEBUG_BACKTRACE_ERROR_CODES
+/* #undef WOLFSSL_DEBUG_BACKTRACE_ERROR_CODES */
+#undef HAVE_DO178
+/* #undef HAVE_DO178 */
+#undef NO_DO178
+#define NO_DO178
+
+/* parity: dependency/value options (wave A) */
+#undef HAVE_XCHACHA
+/* #undef HAVE_XCHACHA */
+#undef HAVE_CMAC_KDF
+/* #undef HAVE_CMAC_KDF */
+#undef FP_ECC
+/* #undef FP_ECC */
+#undef WC_RNG_BANK_SUPPORT
+/* #undef WC_RNG_BANK_SUPPORT */
+#undef HAVE_VALGRIND
+/* #undef HAVE_VALGRIND */
+#undef HAVE_CRL_MONITOR
+/* #undef HAVE_CRL_MONITOR */
+#undef WOLFSSL_TRACK_MEMORY_VERBOSE
+/* #undef WOLFSSL_TRACK_MEMORY_VERBOSE */
+#undef HAVE_STACK_SIZE
+/* #undef HAVE_STACK_SIZE */
+#undef HAVE_STACK_SIZE_VERBOSE
+/* #undef HAVE_STACK_SIZE_VERBOSE */
+#undef MAX_EX_DATA
+/* #undef MAX_EX_DATA */
+#undef ECC_MIN_KEY_SZ
+#define ECC_MIN_KEY_SZ 224
+
+/* parity: crypto/TLS feature options (wave B) */
+#undef WOLFSSL_MD2
+/* #undef WOLFSSL_MD2 */
+#undef WOLFSSL_RIPEMD
+/* #undef WOLFSSL_RIPEMD */
+#undef WOLFSSL_BASE16
+/* #undef WOLFSSL_BASE16 */
+#undef WOLFSSL_PSK_ONE_ID
+/* #undef WOLFSSL_PSK_ONE_ID */
+#undef WOLFSSL_RSA_PUBLIC_ONLY
+/* #undef WOLFSSL_RSA_PUBLIC_ONLY */
+#undef WOLFSSL_RSA_VERIFY_ONLY
+/* #undef WOLFSSL_RSA_VERIFY_ONLY */
+#undef WOLFSSL_RSA_VERIFY_INLINE
+/* #undef WOLFSSL_RSA_VERIFY_INLINE */
+#undef NO_SIG_WRAPPER
+/* #undef NO_SIG_WRAPPER */
+#undef NO_CHECK_PRIVATE_KEY
+/* #undef NO_CHECK_PRIVATE_KEY */
+#undef WOLFSSL_ALLOW_SSLV3
+/* #undef WOLFSSL_ALLOW_SSLV3 */
+#undef WOLFSSL_SMALL_STACK_CACHE
+/* #undef WOLFSSL_SMALL_STACK_CACHE */
+#undef WOLFSSL_SMALL_STACK
+/* #undef WOLFSSL_SMALL_STACK */
+#undef SESSION_CERTS
+/* #undef SESSION_CERTS */
+#undef HAVE_SECURE_RENEGOTIATION
+/* #undef HAVE_SECURE_RENEGOTIATION */
+#undef HAVE_SERVER_RENEGOTIATION_INFO
+/* #undef HAVE_SERVER_RENEGOTIATION_INFO */
+#undef ERROR_QUEUE_PER_THREAD
+/* #undef ERROR_QUEUE_PER_THREAD */
+#undef HAVE_ANON
+/* #undef HAVE_ANON */
+#undef WOLFSSL_EARLY_DATA
+/* #undef WOLFSSL_EARLY_DATA */
+#undef WOLFSSL_EARLY_DATA_GROUP
+/* #undef WOLFSSL_EARLY_DATA_GROUP */
+#undef WOLFSSL_SM2
+/* #undef WOLFSSL_SM2 */
+#undef WOLFSSL_SM4
+/* #undef WOLFSSL_SM4 */
+#undef WOLFSSL_SM4_CBC
+/* #undef WOLFSSL_SM4_CBC */
+#undef WOLFSSL_SM4_CTR
+/* #undef WOLFSSL_SM4_CTR */
+#undef WOLFSSL_SM4_ECB
+/* #undef WOLFSSL_SM4_ECB */
+#undef WOLFSSL_SM4_GCM
+/* #undef WOLFSSL_SM4_GCM */
+#undef WOLFSSL_SM4_CCM
+/* #undef WOLFSSL_SM4_CCM */
+#undef WOLFSSL_SM4_SMALL
+/* #undef WOLFSSL_SM4_SMALL */
+#undef WOLFSSL_STATIC_MEMORY
+/* #undef WOLFSSL_STATIC_MEMORY */
+#undef WOLFSSL_STATIC_MEMORY_LEAN
+/* #undef WOLFSSL_STATIC_MEMORY_LEAN */
+#undef WOLFSSL_STATIC_MEMORY_DEBUG_CALLBACK
+/* #undef WOLFSSL_STATIC_MEMORY_DEBUG_CALLBACK */
+#undef NO_TLS
+/* #undef NO_TLS */
+#undef NO_SHA256
+/* #undef NO_SHA256 */
+#undef NO_PKCS8
+/* #undef NO_PKCS8 */
+#undef NO_OLD_MD5_NAME
+/* #undef NO_OLD_MD5_NAME */
+
+/* parity: value/dep feature options (wave C) */
+#undef OPENSSL_COEXIST
+/* #undef OPENSSL_COEXIST */
+#undef WC_AES_BITSLICED
+/* #undef WC_AES_BITSLICED */
+#undef HAVE_ECC_ENCRYPT
+/* #undef HAVE_ECC_ENCRYPT */
+#undef WOLFSSL_ECIES_OLD
+/* #undef WOLFSSL_ECIES_OLD */
+#undef WOLFSSL_ECIES_ISO18033
+/* #undef WOLFSSL_ECIES_ISO18033 */
+#undef WOLFSSL_ECIES_GEN_IV
+/* #undef WOLFSSL_ECIES_GEN_IV */
+#undef WOLFSSL_EXTRA_ALERTS
+/* #undef WOLFSSL_EXTRA_ALERTS */
+#undef WOLFSSL_CHECK_ALERT_ON_ERR
+/* #undef WOLFSSL_CHECK_ALERT_ON_ERR */
+#undef HAVE_LIBZ
+/* #undef HAVE_LIBZ */
+#undef WOLFSSL_HARDEN_TLS
+/* #undef WOLFSSL_HARDEN_TLS */
+
+/* parity: maximum key size options (wave D) */
+#undef RSA_MAX_SIZE
+/* #undef RSA_MAX_SIZE */
+#undef MAX_ECC_BITS
+/* #undef MAX_ECC_BITS */
+#undef FP_MAX_BITS
+/* #undef FP_MAX_BITS */
+#undef SP_INT_BITS
+/* #undef SP_INT_BITS */
+
+/* parity: assembly options (wave E) */
+#undef WOLFSSL_RISCV_ASM
+/* #undef WOLFSSL_RISCV_ASM */
+#undef WOLFSSL_PPC32_ASM
+/* #undef WOLFSSL_PPC32_ASM */
+#undef WOLFSSL_PPC64_ASM
+/* #undef WOLFSSL_PPC64_ASM */
+
+/* parity: application bundle orphan defines */
+#undef FORTRESS
+/* #undef FORTRESS */
+#undef HAVE_COMP_KEY
+/* #undef HAVE_COMP_KEY */
+#undef HAVE_CTS
+/* #undef HAVE_CTS */
+#undef HAVE_EXT_CACHE
+/* #undef HAVE_EXT_CACHE */
+#undef HAVE_LIBEST
+/* #undef HAVE_LIBEST */
+#undef HAVE_LIGHTY
+/* #undef HAVE_LIGHTY */
+#undef HAVE_MEMCACHED
+/* #undef HAVE_MEMCACHED */
+#undef HAVE_OCSP_RESPONDER
+/* #undef HAVE_OCSP_RESPONDER */
+#undef HAVE_OPENSSL_CMD
+/* #undef HAVE_OPENSSL_CMD */
+#undef HAVE_SBLIM_SFCB
+/* #undef HAVE_SBLIM_SFCB */
+#undef HAVE_STUNNEL
+/* #undef HAVE_STUNNEL */
+#undef HAVE_WOLFSSL_SSL_H
+/* #undef HAVE_WOLFSSL_SSL_H */
+#undef KEEP_OUR_CERT
+/* #undef KEEP_OUR_CERT */
+#undef OPENSSL_COMPATIBLE_DEFAULTS
+/* #undef OPENSSL_COMPATIBLE_DEFAULTS */
+#undef OPENSSL_EXTRA_X509_SMALL
+/* #undef OPENSSL_EXTRA_X509_SMALL */
+#undef OPENSSL_NO_COMP
+/* #undef OPENSSL_NO_COMP */
+#undef WC_CTC_NAME_SIZE
+/* #undef WC_CTC_NAME_SIZE */
+#undef WC_RNG_SEED_CB
+/* #undef WC_RNG_SEED_CB */
+#undef WC_SIG_MIN_HASH_TYPE
+/* #undef WC_SIG_MIN_HASH_TYPE */
+#undef WOLFSSL_ACME_OID
+/* #undef WOLFSSL_ACME_OID */
+#undef WOLFSSL_AESGCM_STREAM
+/* #undef WOLFSSL_AESGCM_STREAM */
+#undef WOLFSSL_ALLOW_RC4
+/* #undef WOLFSSL_ALLOW_RC4 */
+#undef WOLFSSL_ALWAYS_KEEP_SNI
+/* #undef WOLFSSL_ALWAYS_KEEP_SNI */
+#undef WOLFSSL_ALWAYS_VERIFY_CB
+/* #undef WOLFSSL_ALWAYS_VERIFY_CB */
+#undef WOLFSSL_CERT_SETUP_CB
+/* #undef WOLFSSL_CERT_SETUP_CB */
+#undef WOLFSSL_CIPHER_INTERNALNAME
+/* #undef WOLFSSL_CIPHER_INTERNALNAME */
+#undef WOLFSSL_DER_LOAD
+/* #undef WOLFSSL_DER_LOAD */
+#undef WOLFSSL_DSA_768_MODULUS
+/* #undef WOLFSSL_DSA_768_MODULUS */
+#undef WOLFSSL_DTLS_DROP_STATS
+/* #undef WOLFSSL_DTLS_DROP_STATS */
+#undef WOLFSSL_KEEP_RNG_SEED_FD_OPEN
+/* #undef WOLFSSL_KEEP_RNG_SEED_FD_OPEN */
+#undef WOLFSSL_LOG_PRINTF
+/* #undef WOLFSSL_LOG_PRINTF */
+#undef WOLFSSL_NO_INIT_CTX_KEY
+/* #undef WOLFSSL_NO_INIT_CTX_KEY */
+#undef WOLFSSL_NO_OCSP_ISSUER_CHECK
+/* #undef WOLFSSL_NO_OCSP_ISSUER_CHECK */
+#undef WOLFSSL_PRIORITIZE_PSK
+/* #undef WOLFSSL_PRIORITIZE_PSK */
+#undef WOLFSSL_PSS_SALT_LEN_DISCOVER
+/* #undef WOLFSSL_PSS_SALT_LEN_DISCOVER */
+#undef WOLFSSL_PUBLIC_ECC_ADD_DBL
+/* #undef WOLFSSL_PUBLIC_ECC_ADD_DBL */
+#undef WOLFSSL_SESSION_ID_CTX
+/* #undef WOLFSSL_SESSION_ID_CTX */
+#undef WOLFSSL_SIGNER_DER_CERT
+/* #undef WOLFSSL_SIGNER_DER_CERT */
+#undef WOLFSSL_TLS13_MIDDLEBOX_COMPAT
+/* #undef WOLFSSL_TLS13_MIDDLEBOX_COMPAT */
+#undef WOLFSSL_TLS13_NO_PEEK_HANDSHAKE_DONE
+/* #undef WOLFSSL_TLS13_NO_PEEK_HANDSHAKE_DONE */
+#undef WOLFSSL_TRUST_PEER_CERT
+/* #undef WOLFSSL_TRUST_PEER_CERT */
+#undef WOLFSSL_VALIDATE_ECC_IMPORT
+/* #undef WOLFSSL_VALIDATE_ECC_IMPORT */
+
+/* parity: application bundle defines */
+#undef HAVE_OID_ENCODING
+/* #undef HAVE_OID_ENCODING */
+#undef HAVE_PK_CALLBACKS
+/* #undef HAVE_PK_CALLBACKS */
+#undef SINGLE_THREADED
+/* #undef SINGLE_THREADED */
+#undef WOLFSSL_ALT_NAMES
+/* #undef WOLFSSL_ALT_NAMES */
+#undef WOLFSSL_APACHE_HTTPD
+/* #undef WOLFSSL_APACHE_HTTPD */
+#undef WOLFSSL_BIND
+/* #undef WOLFSSL_BIND */
+#undef WOLFSSL_HAPROXY
+/* #undef WOLFSSL_HAPROXY */
+#undef WOLFSSL_HITCH
+/* #undef WOLFSSL_HITCH */
+#undef WOLFSSL_JNI
+/* #undef WOLFSSL_JNI */
+#undef WOLFSSL_NGINX
+/* #undef WOLFSSL_NGINX */
+#undef WOLFSSL_NO_ASN_STRICT
+/* #undef WOLFSSL_NO_ASN_STRICT */
+#undef WOLFSSL_OPENSSH
+/* #undef WOLFSSL_OPENSSH */
+#undef WOLFSSL_OPENVPN
+/* #undef WOLFSSL_OPENVPN */
+#undef WOLFSSL_QT
+/* #undef WOLFSSL_QT */
+#undef WOLFSSL_RSYSLOG
+/* #undef WOLFSSL_RSYSLOG */
+#undef WOLFSSL_WPAS
+/* #undef WOLFSSL_WPAS */
+
+/* parity: application bundle defines (batch 2) */
+#undef HAVE_EX_DATA_CLEANUP_HOOKS
+/* #undef HAVE_EX_DATA_CLEANUP_HOOKS */
+#undef HAVE_NULL_CIPHER
+/* #undef HAVE_NULL_CIPHER */
+#undef HAVE_SMIME
+/* #undef HAVE_SMIME */
+#undef LARGE_STATIC_BUFFERS
+/* #undef LARGE_STATIC_BUFFERS */
+#undef OPENSSL_NO_EC
+/* #undef OPENSSL_NO_EC */
+#undef WOLFSSL_HAVE_WOLFSCEP
+/* #undef WOLFSSL_HAVE_WOLFSCEP */
+#undef WOLFSSL_IOTSAFE
+/* #undef WOLFSSL_IOTSAFE */
+#undef WOLFSSL_KRB
+/* #undef WOLFSSL_KRB */
+#undef WOLFSSL_LIBWEBSOCKETS
+/* #undef WOLFSSL_LIBWEBSOCKETS */
+#undef WOLFSSL_MULTICAST
+/* #undef WOLFSSL_MULTICAST */
+#undef WOLFSSL_OLD_EXTDATA_FMT
+/* #undef WOLFSSL_OLD_EXTDATA_FMT */
+#undef WOLFSSL_SIGNAL
+/* #undef WOLFSSL_SIGNAL */
+#undef WOLFSSL_STATIC_PSK
+/* #undef WOLFSSL_STATIC_PSK */
+#undef WOLFSSL_STATIC_RSA
+/* #undef WOLFSSL_STATIC_RSA */
+#undef WOLFSSL_WOLFSENTRY_HOOKS
+/* #undef WOLFSSL_WOLFSENTRY_HOOKS */
+
+#ifdef __cplusplus
+}
+#endif
+
+
+#endif /* WOLFSSL_OPTIONS_H */

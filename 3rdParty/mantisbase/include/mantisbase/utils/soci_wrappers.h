@@ -1,0 +1,166 @@
+/**
+ * @file soci_wrappers.h
+ * @brief SOCI database wrapper utilities.
+ *
+ * Provides conversion functions between JSON objects and SOCI database
+ * value types for seamless data binding and retrieval.
+ */
+
+#ifndef MANTISAPP_SOCI_WRAPPERS_H
+#define MANTISAPP_SOCI_WRAPPERS_H
+
+#include "utils.h"
+#include "../mantisbase.h"
+#include "mantisbase/core/models/entity_schema_field.h"
+#include "mantisbase/core/models/int_precision.h"
+#include "soci/values.h"
+
+namespace mb {
+    /**
+     * @brief Bind a JSON entity payload to SOCI values using field metadata.
+     * @param entity Record JSON keyed by field name.
+     * @param fields Schema field array (`name`, `type`, constraints, …).
+     * @throws std::invalid_argument if `fields` is not an array.
+     */
+    MANTISBASE_API inline soci::values json2SociValue(const json &entity, const json &fields) {
+        if (!fields.is_array()) throw std::invalid_argument("Fields must be an array");
+
+        soci::values vals;
+        // Bind parameters dynamically
+        for (const auto &field: fields) {
+            const auto field_name = field.at("name").get<std::string>();
+
+            if (field_name == "id" || field_name == "created" || field_name == "updated") {
+                continue;
+            }
+            // Skip fields that are not in the JSON object
+            if (!entity.contains(field_name)) continue;
+
+            // For password types, hash before binding (null password = OAuth-only user)
+            if (field_name == "password") {
+                if (entity[field_name].is_null() || (entity[field_name].is_string() && entity[field_name].get<std::string>().empty())) {
+                    std::optional<int> val;
+                    vals.set(field_name, val, soci::i_null);
+                    continue;
+                }
+                auto hashed_password = hashPassword(entity.at(field_name).get<std::string>());
+                vals.set(field_name, hashed_password);
+                continue;
+            }
+
+            // If the value is null, set i_null and continue
+            if (entity[field_name].is_null()) {
+                std::optional<int> val; // Set to optional, no value is set in db
+                vals.set(field_name, val, soci::i_null);
+                continue;
+            }
+
+            // For non-null values, set the value accordingly
+            const auto field_type = field.at("type").get<std::string>();
+            if (field_type == "string" || field_type == "file") {
+                vals.set(field_name, entity.value(field_name, ""));
+            } else if (field_type == "double") {
+                vals.set(field_name, entity.value(field_name, 0.0));
+            } else if (field_type == "date") {
+                auto dt_str = entity.value(field_name, "");
+                if (dt_str.empty()) {
+                    vals.set(field_name, 0, soci::i_null);
+                } else {
+                    std::tm tm{};
+                    std::istringstream ss{dt_str};
+                    ss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%S");
+
+                    vals.set(field_name, tm);
+                }
+            } else if (field_type == "int") {
+                bindIntFieldValue(vals, field_name, entity.at(field_name), intPrecisionFromField(field));
+            } else if (field_type == "json") {
+                vals.set(field_name, entity.value(field_name, json::object()));
+            } else if (field_type == "bool") {
+                vals.set(field_name, entity.value(field_name, false));
+            } else if (field_type == "files") {
+                vals.set(field_name, entity.value(field_name, json::array()));
+            }
+        }
+
+        return vals;
+    }
+
+    /** Resolve int precision for a column by matching field name in schema metadata. */
+    MANTISBASE_API inline IntPrecision getColumnIntPrecision(const std::string &column_name, const std::vector<json> &fields) {
+        for (const auto &field: fields) {
+            if (field.value("name", "") == column_name) {
+                return intPrecisionFromField(field);
+            }
+        }
+        return defaultIntPrecision();
+    }
+
+    /** Look up declared field `type` string for a column name. @throws on unknown column. */
+    MANTISBASE_API inline std::string getColumnType(const std::string &column_name, const std::vector<json> &fields) {
+        if (column_name.empty()) throw std::invalid_argument("Column name can't be empty!");
+
+        for (const auto &field: fields) {
+            if (field.value("name", "") == column_name)
+                return field.at("type").get<std::string>();
+        }
+
+        throw std::runtime_error("No field type found matching column `" + column_name + "'");
+    }
+
+    /**
+     * @brief Convert a SOCI result row to JSON using entity field metadata.
+     * @param db_type Active database type string (affects date formatting).
+     * @param row SOCI row from a SELECT.
+     * @param entity_fields Schema fields array for type lookup.
+     */
+    MANTISBASE_API inline json sociRow2Json(const std::string& db_type, const soci::row &row, const std::vector<json> &entity_fields) {
+        // Guard against empty reference schema fields
+        if (entity_fields.empty())
+            throw std::invalid_argument("Reference schema fields can't be empty!");
+
+        // Build response json object
+        json res_json;
+        for (size_t i = 0; i < row.size(); i++) {
+            const auto colName = row.get_properties(i).get_name();
+            const auto colType = getColumnType(colName, entity_fields);
+
+            // Check column type is valid type
+            if (colType.empty() || !EntitySchemaField::isValidFieldType(colType)) // Or not in expected types
+            {
+                // Throw an error for unknown types
+                throw std::runtime_error(std::format("Unknown column type `{}` for column `{}`", colType, colName));
+            }
+
+            // Handle null values immediately
+            if (row.get_indicator(i) == soci::i_null) {
+                // Handle null value in JSON
+                res_json[colName] = nullptr;
+                continue;
+            }
+
+            // Handle type conversions
+            if (colType == "string") {
+                res_json[colName] = row.get<std::string>(i, "");
+            } else if (colType == "double") {
+                res_json[colName] = row.get<double>(i);
+            } else if (colType == "date") {
+                res_json[colName] = mb::dbDateToString(db_type, row, i);
+            } else if (colType == "int") {
+                res_json[colName] = readIntFieldValue(row, i, getColumnIntPrecision(colName, entity_fields));
+            } else if (colType == "json" || colType == "list") {
+                res_json[colName] = row.get<json>(i);
+            } else if (colType == "bool") {
+                res_json[colName] = row.get<bool>(i);
+            } else if (colType == "file") {
+                res_json[colName] = row.get<std::string>(i);
+            } else if (colType == "files") {
+                res_json[colName] = row.get<json>(i);
+            }
+        }
+
+        return res_json;
+    }
+}
+
+#endif //MANTISAPP_SOCI_WRAPPERS_H

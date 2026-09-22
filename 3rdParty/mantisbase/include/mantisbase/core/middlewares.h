@@ -1,0 +1,204 @@
+/**
+ * @file middlewares.h
+ * @brief Middleware functions for request processing.
+ *
+ * Provides pre-built middleware functions for authentication, authorization,
+ * and request context management.
+ */
+
+#ifndef MANTISBASE_MIDDLEWARES_H
+#define MANTISBASE_MIDDLEWARES_H
+
+#include <functional>
+#include <string>
+#include "types.h"
+#include "models/entity.h"
+
+namespace mb {
+    /**
+     * @brief Extract JWT or API key from the Authorization header.
+     *
+     * Parses `Authorization: Bearer <token>` or the `mb_token` HttpOnly cookie.
+     * Bearer is preferred when both are present. Tokens starting with `mb_sk_`
+     * are treated as API keys and resolved through @ref ApiKeyManager; JWTs are
+     * verified on later middleware. Sets `auth` and `verification` request
+     * attributes consumed by `requireEntityAuth()` and access-rule checks.
+     * @return Middleware function
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> getAuthToken();
+
+    /**
+     * @brief Hydrate request context with additional data.
+     *
+     * Populates context store with request metadata and user information.
+     * @return Middleware function
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> hydrateContextData();
+
+    /**
+     * @brief Resolve schema from `:schema_name_or_id` path param and validate it exists.
+     *
+     * Returns 404 when the schema id/name is invalid or not found.
+     * @return Middleware function
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> resolveSchema();
+
+    /**
+     * @brief Resolve auth entity from `:entity_name` path param.
+     *
+     * Returns 404 when the entity is missing, not auth type, is a system/admin entity,
+     * or has API disabled.
+     * @return Middleware function
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> resolveAuthEntity();
+
+    /**
+     * @brief Resolve entity from `:entity_name` path param and validate it is API-accessible.
+     *
+     * Returns 404 when the entity does not exist, is a system entity, or has API disabled.
+     * @return Middleware function
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> resolveEntity();
+
+    /**
+     * @brief Reject POST, PATCH, and DELETE requests against view-type entities.
+     * @return Middleware function
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> rejectViewMutations();
+
+    /**
+     * @brief Check access rules for the entity named in the `:entity_name` path param.
+     * @return Middleware function that validates access rules
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> hasEntityAccess();
+
+    /**
+     * @brief Check if request has access to entity based on access rules.
+     * @param entity_name Entity/table name to check access for
+     * @return Middleware function that validates access rules
+     * @code
+     * router.Get("/api/v1/posts", handler, {hasAccess("posts")});
+     * @endcode
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> hasAccess(const std::string &entity_name);
+
+    /**
+     * @brief Require expression evaluation to pass.
+     *
+     * Evaluates @p expr with `auth` and `req` variables (same context as entity
+     * custom access rules). Does not require authentication upfront — the
+     * expression decides. Returns **403** with `"Access denied!"` when false.
+     *
+     * @param expr Expression string to evaluate (`auth.id`, `@auth.id`, `req.body`, etc.)
+     * @return Middleware function that evaluates expression
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> requireExprEval(const std::string &expr);
+
+    /**
+     * @brief Require guest-only access (no authentication).
+     *
+     * Blocks authenticated users, only allows unauthenticated requests.
+     * @return Middleware function
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> requireGuestOnly();
+
+    /**
+     * @brief Require admin authentication.
+     *
+     * Only allows requests from users authenticated as admins.
+     * @return Middleware function
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> requireAdminAuth();
+
+    /**
+     * @brief Block the request when an environment variable matches a truthy state.
+     *
+     * Reads @p env_var at request time. If `strToBool(getEnvOrDefault(env_var, ""))`
+     * equals @p block_when_truthy, responds with HTTP 503 and stops the middleware chain.
+     * Otherwise the request continues to the route handler.
+     *
+     * Example: `envGateMiddleware("MB_DISABLE_ADMIN_MUTATIONS", true)` blocks admin account
+     * mutations when `MB_DISABLE_ADMIN_MUTATIONS` is set to `true`, `1`, `on`, or `yes`.
+     *
+     * Example: `envGateMiddleware("MB_DISABLE_CONFIG_MUTATIONS", true)` blocks PATCH on
+     * `/api/v1/sys/settings/config` when `MB_DISABLE_CONFIG_MUTATIONS` is truthy.
+     *
+     * @param env_var Environment variable name
+     * @param block_when_truthy Truthy env value that triggers the 503 block
+     * @return Middleware function
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> envGateMiddleware(
+        const std::string &env_var, bool block_when_truthy);
+
+    /**
+     * @brief Block the request when an app-settings flag is truthy.
+     *
+     * Reads @p setting_key from `settings().configs()` at request time (default `false`).
+     * When the value is truthy per `strToBool`, responds with HTTP **503** and stops the chain.
+     *
+     * Used for production safety toggles such as `allowRegistration` (when true, blocks admin
+     * API signup) and `disableSchemaMutations` (when true, blocks schema POST/PATCH/DELETE).
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> settingsFeatureGate(
+        const std::string &setting_key);
+
+    /**
+     * @brief Require admin OR entity authentication.
+     *
+     * Requires a valid JWT or API key. Allows `mb_admins` or users whose
+     * `auth.entity` matches @p entity_name. Missing/invalid credentials → **401**;
+     * authenticated but wrong entity → **403**.
+     *
+     * @param entity_name Entity name for entity-based auth
+     * @return Middleware function that allows admins or entity users
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> requireAdminOrEntityAuth(
+        const std::string &entity_name);
+
+    /**
+     * @brief Require entity-specific authentication.
+     *
+     * Requires a valid JWT or API key for @p entity_name only. Admins from other
+     * entities are rejected. Missing/invalid credentials → **401**; wrong entity → **403**.
+     *
+     * @param entity_name Entity name to authenticate against
+     * @return Middleware function that validates entity auth
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> requireEntityAuth(const std::string &entity_name);
+
+    /**
+     * @brief Rate limiting middleware to prevent abuse.
+     *
+     * Limits the number of requests per time window. Can rate limit by IP address
+     * or by authenticated user ID. When the rate limit is exceeded, returns a
+     * 429 Too Many Requests response with rate limit headers.
+     *
+     * @param max_requests Maximum number of requests allowed in the time window
+     * @param window_seconds Time window duration in seconds
+     * @param use_user_id If true, rate limit by authenticated user ID; if false, use IP address.
+     *                    Falls back to IP if user ID is not available.
+     * @return Middleware function that enforces rate limits
+     *
+     * @note The login endpoint uses this middleware with 5 requests per 60 seconds by IP.
+     * @note Rate limit headers are included in responses: X-RateLimit-Limit, X-RateLimit-Remaining,
+     *       X-RateLimit-Reset, and Retry-After.
+     *
+     * @code
+     * // Rate limit by IP: 100 requests per minute
+     * router.Get("/api/v1/data", handler, {rateLimit(100, 60, false)});
+     *
+     * // Rate limit by user: 10 requests per second
+     * router.Post("/api/v1/upload", handler, {rateLimit(10, 1, true)});
+     *
+     * // Login endpoint: 5 attempts per minute per IP (prevents brute force)
+     * router.Post("/api/v1/auth/users/login", loginHandler, {rateLimit(5, 60, false), resolveAuthEntity()});
+     * @endcode
+     */
+    MANTISBASE_API std::function<HandlerResponse(MantisRequest &, MantisResponse &)> rateLimit(
+        int max_requests,
+        int window_seconds,
+        bool use_user_id = false
+    );
+}
+
+#endif //MANTISBASE_MIDDLEWARES_H
