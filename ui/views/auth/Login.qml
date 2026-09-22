@@ -102,7 +102,7 @@ DsPage {
     Requests {
         id: loginrequest
         baseUrl: dsController.baseUrl
-        path: "/api/v1/auth/login"
+        path: "/api/v1/auth/users/login"
         method: "POST"
     }
 
@@ -133,12 +133,13 @@ DsPage {
             return;
         }
 
+        // Create request payload
         var body = {
             identity,
-            password,
-            entity: "tellers"
+            password
         }
 
+        // Clear request body & attach payload
         loginrequest.clear()
         loginrequest.body = body;
         var res = loginrequest.send();
@@ -177,7 +178,6 @@ DsPage {
                 toast.success(qsTr("Login Success!"))
             }
         } else {
-            // console.log(JSON.stringify(res))
             // User creation failed
             messageBox.showMessage(qsTr("Login Failed"), Utils.error(res))
         }

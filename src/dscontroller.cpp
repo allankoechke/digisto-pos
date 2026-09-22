@@ -43,15 +43,15 @@ DsController::DsController(QObject *parent)
     config["poolSize"] = 6;
 
     // Instantiate Worker thread, connect exit func and start the thread.
-    // mbWorker = new MantisBaseImpl(config);
-    // connect(mbWorker, &QThread::finished, &QObject::deleteLater);
-    // mbWorker->start();
+    mbWorker = new MantisBaseImpl(config);
+    connect(mbWorker, &QThread::finished, &QObject::deleteLater);
+    mbWorker->start();
 
     // Ensure worker thread is running
-    // Q_ASSERT(mbWorker->isRunning());
+    Q_ASSERT(mbWorker->isRunning());
 
     // Base endpoint for API calls
-    setBaseUrl("http://127.0.0.1:7070");
+    setBaseUrl("http://127.0.0.1:10453");
 
     qApp->setApplicationVersion(getVersionString());
     qApp->setApplicationDisplayName(QString("%1 v%2").arg("Digisto POS", getVersionString()));

@@ -1,12 +1,12 @@
 function error(obj) {
     if(!obj) return qsTr("Unknown Error!")
-    if(Object.keys(obj.data).includes('message')) {
-        return obj.data.message
+    if(Object.keys(obj).includes('data') && Object.keys(obj['data']).includes('message')) {
+        return obj['data']['message']
     }    
-    if(Object.keys(obj.data).includes('error')) {
-        return obj.data.message
+    if(Object.keys(obj).includes('data') && Object.keys(obj['data']).includes('error')) {
+        return obj['data']['error']
     }
-    return obj.error
+    return obj['error']
 }
 
 function toSentenceCase(str) {
