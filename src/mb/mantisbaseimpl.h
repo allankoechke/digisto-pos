@@ -1,10 +1,11 @@
 #ifndef MANTISBASEIMPL_H
 #define MANTISBASEIMPL_H
 
-#include <mantisbase/mantis.h>
+#include <mantisbase/core/types.h>
 
 #include <QObject>
 #include <QThread>
+#include <memory>
 
 class MantisBaseImpl : public QThread
 {
@@ -23,7 +24,7 @@ signals:
     void isServerRunningChanged();
 
 private:
-    mb::MantisBase& mApp;
+    std::shared_ptr<mb::MantisBase> mApp;
 };
 
 #endif // MANTISBASEIMPL_H

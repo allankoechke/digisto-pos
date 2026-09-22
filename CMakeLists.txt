@@ -54,8 +54,14 @@ set_target_properties(digisto PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+# wolfSSL legacy compat macros (Md5, Sha, ...) collide with
+# QCryptographicHash::Md5 / ::Sha512. Disable them for all our TUs.
+target_compile_definitions(digisto PRIVATE NO_OLD_WC_NAMES NO_OLD_MD5_NAME)
+
 # MantisBase dependency for digisto
 add_subdirectory(3rdParty/mantisbase)
+target_include_directories(digisto PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/mantisbase/include)
 
 target_link_libraries(digisto
     PRIVATE
@@ -63,7 +69,7 @@ target_link_libraries(digisto
     Qt6::Quick
     Qt6::Widgets
     Qt6::WebView
-    mantisbase
+    ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/mantisbase/libs/x86/libmantisbase.so
 )
 
 include(GNUInstallDirs)

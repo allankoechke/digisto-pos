@@ -16,19 +16,19 @@ int main(int argc, char *argv[])
 {
     QtWebView::initialize();        // WebEngine init
     QApplication app(argc, argv);   // App init
-    qApp->setApplicationName("co.ke.codeart.digisto");
+    qApp->setApplicationName("co.ke.codeart.digisto-pos");
 
     // Register message handler
     // qInstallMessageHandler(Configurator::messageHandler);
 
     // Make sure there is no other instance running
-    SingleInstanceGuard instance("Digisto");
+    SingleInstanceGuard instance("Digisto POS");
     if (!instance.tryToRun()) {
         QMessageBox msgBox;
         msgBox.setIcon(QMessageBox::Icon::Critical);
         msgBox.setText(
             QString(QObject::tr("There is another %1 instance running!\n"))
-                .arg("Digisto"));
+                .arg("Digisto POS"));
         msgBox.exec();
         return 127;
     }
