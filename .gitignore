@@ -10,7 +10,6 @@
 *.obj
 *.orig
 *.rej
-*.so
 *.so.*
 *_pch.h.cpp
 *_resource.rc
@@ -69,14 +68,9 @@ CMakeLists.txt.user*
 # Python byte code
 *.pyc
 
-# Binaries
-# --------
-*.dll
-
 # build directory
 build
 *build*/
 
 # Generated config file
-config.hpp
 .idea/
