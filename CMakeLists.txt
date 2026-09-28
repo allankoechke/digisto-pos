@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(digistoapp VERSION 0.2.3 LANGUAGES CXX)
+project(digistoapp VERSION 0.3.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -36,7 +36,7 @@ if (WIN32)
     list(APPEND SOURCES ${APP_ICON_RESOURCE_FILES})
 endif()
 
-qt_add_executable(digisto ${SOURCES}
+qt_add_executable(digisto-pos ${SOURCES}
     src/mb/checkout.cpp
     src/mb/dashboard.cpp
     src/mb/organization.cpp
@@ -46,8 +46,8 @@ qt_add_executable(digisto ${SOURCES}
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
-set_target_properties(digisto PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER app.digisto
+set_target_properties(digisto-pos PROPERTIES
+    MACOSX_BUNDLE_GUI_IDENTIFIER app.digisto-pos
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
@@ -56,9 +56,9 @@ set_target_properties(digisto PROPERTIES
 
 # wolfSSL legacy compat macros (Md5, Sha, ...) collide with
 # QCryptographicHash::Md5 / ::Sha512. Disable them for all our TUs.
-target_compile_definitions(digisto PRIVATE NO_OLD_WC_NAMES NO_OLD_MD5_NAME)
+target_compile_definitions(digisto-pos PRIVATE NO_OLD_WC_NAMES NO_OLD_MD5_NAME)
 
-target_link_libraries(digisto
+target_link_libraries(digisto-pos
     PRIVATE
     Qt6::Core
     Qt6::Quick
@@ -66,14 +66,14 @@ target_link_libraries(digisto
     Qt6::WebView
 )
 
-# MantisBase dependency for digisto
+# MantisBase dependency for digisto pos
 set(MantisBase_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/mantisbase/cmake)
 find_package(MantisBase REQUIRED)
-target_link_libraries(digisto PRIVATE mantisbase::shared)
+target_link_libraries(digisto-pos PRIVATE mantisbase::shared)
 
 
 include(GNUInstallDirs)
-install(TARGETS digisto
+install(TARGETS digisto-pos
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

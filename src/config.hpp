@@ -1,10 +1,12 @@
 #ifndef CONFIG_HPP_IN
 #define CONFIG_HPP_IN
 
+#include <tuple>
+
 #define DIGISTO_VERSION_MAJOR 0
-#define DIGISTO_VERSION_MINOR 2
-#define DIGISTO_VERSION_PATCH 3
-#define DIGISTO_VERSION "0.2.3"
+#define DIGISTO_VERSION_MINOR 3
+#define DIGISTO_VERSION_PATCH 0
+#define DIGISTO_VERSION "0.3.0"
 
 inline const char* getVersionString() {
     return DIGISTO_VERSION;
