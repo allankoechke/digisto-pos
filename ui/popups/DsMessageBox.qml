@@ -66,7 +66,7 @@ DsPopup {
                     }
 
                     DsIconButton {
-                        textColor: Theme.txtPrimaryColor
+                        textColor: Theme.warningColor
                         bgColor: "transparent"
                         bgHover: withOpacity(Theme.baseAlt1Color, 0.8)
                         bgDown: withOpacity(Theme.baseAlt1Color, 0.6)

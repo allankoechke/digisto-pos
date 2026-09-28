@@ -6,9 +6,9 @@
 #define MB_VERSION_MAJOR 0
 #define MB_VERSION_MINOR 4
 #define MB_VERSION_PATCH 5
-#define MB_VERSION_SUFFIX "-dev+gc60e200"
-#define MB_GIT_COMMIT "c60e200"
-#define MB_VERSION "0.4.5-dev+gc60e200"
+#define MB_VERSION_SUFFIX "-dev+g0d5d9b0"
+#define MB_GIT_COMMIT "0d5d9b0"
+#define MB_VERSION "0.4.5-dev+g0d5d9b0"
 
 namespace mb {
     inline const char* getVersionString() {

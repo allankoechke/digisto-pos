@@ -24,8 +24,7 @@ MantisBaseImpl::MantisBaseImpl(mb::json config)
 
 MantisBaseImpl::~MantisBaseImpl()
 {
-    if(isServerRunning())
-        mApp->close();
+    if(mApp) mApp->close();
 }
 
 void MantisBaseImpl::run()

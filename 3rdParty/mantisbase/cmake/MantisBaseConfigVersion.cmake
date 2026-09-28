@@ -1,11 +1,11 @@
 # Version companion for MantisBaseConfig.cmake (find_package version matching).
 #
-# 0.4.5-beta.1 is the full release string (e.g. "0.4.3" or "0.4.3-rc.1").
+# 0.4.5 is the full release string (e.g. "0.4.3" or "0.4.3-rc.1").
 # Compatibility is decided on the numeric major.minor.patch triple so that a
 # prerelease suffix never poisons the comparison; EXACT requests still compare
 # the full string. Requested versions must be plain numeric dotted versions,
 # e.g. find_package(MantisBase 0.4 REQUIRED).
-set(PACKAGE_VERSION "0.4.5-beta.1")
+set(PACKAGE_VERSION "0.4.5")
 set(_MB_PKG_TRIPLE "0.4.5")
 set(_MB_PKG_MAJOR "0")
 set(_MB_PKG_MINOR "4")

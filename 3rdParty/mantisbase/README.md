@@ -1,4 +1,4 @@
-# MantisBase C++ Developer Package (linux, v0.4.5-beta.1)
+# MantisBase C++ Developer Package (linux, v0.4.5)
 
 Prebuilt MantisBase shared library + headers for Linux.
 Static archives are not shipped in this package.
@@ -9,7 +9,6 @@ Static archives are not shipped in this package.
 ## Layout
 
 ```
-CMakeLists.txt   add_subdirectory() entry point (defines the `mantisbase` target)
 README.md        this file
 VERSION          release tag
 include/         header tree for this OS (mantisbase headers + bundled
@@ -19,7 +18,7 @@ libs/
   x86/           prebuilt shared library for x86-64 (libmantisbase.so)
   arm/           prebuilt shared library for aarch64 (libmantisbase.so)
                  (Windows ships x86 only)
-lib/cmake/MantisBase/
+cmake/
   MantisBaseConfig.cmake         find_package(MantisBase) entry point
   MantisBaseConfigVersion.cmake  version matching
 ```
@@ -37,22 +36,10 @@ Runtime shared libraries on Debian/Ubuntu are `libpq5` and `libuuid1` (see `dock
 
 ## Quick integration (CMake)
 
-Unzip (e.g. into `mantisbase-linux-cpp-dev/`) and point your project at it:
+Unzip (e.g. into `mantisbase-linux-cpp-dev/`) and point your project at it using `find_package`.
 
 ```cmake
-cmake_minimum_required(VERSION 3.22)
-project(my_app)
-
-add_subdirectory(path/to/mantisbase-linux-cpp-dev)
-
-add_executable(my_app main.cpp)
-target_link_libraries(my_app PRIVATE mantisbase)
-```
-
-Prefer `find_package`? Point CMake at the package instead:
-
-```cmake
-# cmake -B build -DCMAKE_PREFIX_PATH=/path/to/mantisbase-linux-cpp-dev
+set(MantisBase_DIR "/path/to/mantisbase-linux-cpp-dev/cmake")
 find_package(MantisBase REQUIRED)
 target_link_libraries(my_app PRIVATE mantisbase::shared)
 ```
